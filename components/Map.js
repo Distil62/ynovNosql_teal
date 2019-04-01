@@ -1,11 +1,12 @@
 import NavigationControl from "mapbox-gl";
 import React from 'react';
 import ReactMapboxGl, { Feature, Layer } from "react-mapbox-gl";
+import SearchBar from './SearchBar';
 
 class LoadMap extends React.Component {
     
     Mapbox = ReactMapboxGl({
-        accessToken: "pk.eyJ1IjoiaW1teXN0IiwiYSI6ImNqdHkzZHMzMzBka3M0ZG1oZHVzeXdhbjEifQ.BLqaWXGcWlWrivD9jacH4w"
+        accessToken: "pk.eyJ1IjoiaW1teXN0IiwiYSI6ImNqdHlkN2FtdDAxcjEzem4zbnJpcGs2aXAifQ.mz6mN7OZY5yLfnslk4jXGQ"
       });
 
     onStyleLoad = (map) => {
@@ -19,20 +20,23 @@ class LoadMap extends React.Component {
     render() {
 
         return (
-            <this.Mapbox
-                onStyleLoad={this.onStyleLoad}
-                style="mapbox://styles/mapbox/streets-v9"
-                containerStyle={{
-                    height: "100vh",
-                    width: "100vw"
-                }}>
-                <Layer
-                type="symbol"
-                id="marker"
-                layout={{ "icon-image": "marker-15" }}>
-                <Feature coordinates={[-0.481747846041145, 51.3233379650232]}/>
-                </Layer>
-            </this.Mapbox>
+            <div>
+                <SearchBar />
+                <this.Mapbox
+                    onStyleLoad={this.onStyleLoad}
+                    style="mapbox://styles/mapbox/dark-v9"
+                    containerStyle={{
+                        height: "100vh",
+                        width: "100vw"
+                    }}>
+                    <Layer
+                    type="symbol"
+                    id="marker"
+                    layout={{ "icon-image": "marker-15" }}>
+                    <Feature coordinates={[4.837754, 45.745716]}/>
+                    </Layer>
+                </this.Mapbox>
+            </div>
         );
     }
 }

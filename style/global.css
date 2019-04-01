@@ -1,3 +1,7 @@
+:root {
+    --blue-color: #40a9ff;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -5,4 +9,36 @@
 body {
     margin: 0;
     padding: 0;
+}
+
+.search-bar {
+    display: block;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 60px;
+    left: 0;
+    right: 0;
+    font-size: 25px;
+    width: 40%;
+    z-index: 999;
+}
+
+.ant-input-affix-wrapper .ant-input {
+    height: 40px;
+    font-size: 17px;
+    background-color: #373a3a;
+    color: white;
+    border-color: var(--blue-color);
+    -webkit-box-shadow: 3px 3px 7px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 3px 3px 7px 0px rgba(0,0,0,0.5);
+    box-shadow: 2px 2px 7px 0px rgba(0,0,0,0.5);
+}
+
+.ant-input-search-icon {
+    color: white;
+}
+
+.ant-input-search-icon:hover {
+    color: var(--blue-color);
 }
