@@ -1,6 +1,6 @@
 import NavigationControl from "mapbox-gl";
 import React from 'react';
-import ReactMapboxGl, { Feature, Layer } from "react-mapbox-gl";
+import ReactMapboxGl, { Layer, Marker } from "react-mapbox-gl";
 import SearchBar from './SearchBar';
 
 class LoadMap extends React.Component {
@@ -17,6 +17,11 @@ class LoadMap extends React.Component {
             trackUserLocation: true
         }));
     };
+
+    longitude = 4.837754
+    latitude = 45.745716
+
+
     render() {
 
         return (
@@ -24,6 +29,7 @@ class LoadMap extends React.Component {
                 <SearchBar />
                 <this.Mapbox
                     onStyleLoad={this.onStyleLoad}
+                    center = {[4.8418314, 45.7463131]}
                     style="mapbox://styles/mapbox/dark-v9"
                     containerStyle={{
                         height: "100vh",
@@ -33,7 +39,10 @@ class LoadMap extends React.Component {
                     type="symbol"
                     id="marker"
                     layout={{ "icon-image": "marker-15" }}>
-                    <Feature coordinates={[4.837754, 45.745716]}/>
+                    <Marker
+                        coordinates={[this.longitude, this.latitude]}
+                        anchor="bottom">
+                    </Marker>
                     </Layer>
                 </this.Mapbox>
             </div>
