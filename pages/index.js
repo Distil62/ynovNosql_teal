@@ -1,1 +1,7 @@
-export default props => <h1>Hello World !</h1>
+import dynamic from 'next/dynamic';
+
+const DynamicComponentWithNoSSR = dynamic(() => import('../components/Map'), {
+    ssr: false
+});
+
+export default () => <DynamicComponentWithNoSSR />;
