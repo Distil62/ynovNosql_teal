@@ -1,10 +1,10 @@
+import fetch from 'isomorphic-unfetch';
 import NavigationControl from "mapbox-gl";
 import React from 'react';
 import ReactMapboxGl, { Layer, Marker } from "react-mapbox-gl";
 import SearchBar from './SearchBar';
 
 class LoadMap extends React.Component {
-    
     Mapbox = ReactMapboxGl({
         accessToken: "pk.eyJ1IjoiaW1teXN0IiwiYSI6ImNqdHlkN2FtdDAxcjEzem4zbnJpcGs2aXAifQ.mz6mN7OZY5yLfnslk4jXGQ"
       });
@@ -21,9 +21,14 @@ class LoadMap extends React.Component {
     longitude = 4.837754
     latitude = 45.745716
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            velovs: []
+        }
+    }
 
     render() {
-
         return (
             <div>
                 <SearchBar />
@@ -39,14 +44,19 @@ class LoadMap extends React.Component {
                     type="symbol"
                     id="marker"
                     layout={{ "icon-image": "marker-15" }}>
-                    <Marker
-                        coordinates={[this.longitude, this.latitude]}
-                        anchor="bottom">
-                    </Marker>
+                    {
+                        this.state.velovs.length > 0
+                            ? this.state.velovs.map(velov => <Marker key={velov._id} coordinates={velov.geometry.coordinates} />)
+                            : null
+                    }
                     </Layer>
                 </this.Mapbox>
             </div>
         );
+    }
+    async componentDidMount() {
+        const velov = await fetch("http://localhost:3000/api/velov/");
+        this.setState({velovs: await velov.json()});
     }
 }
 
