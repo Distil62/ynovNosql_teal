@@ -18,8 +18,6 @@ const quarter = model('quarters', new Schema({
     }
 }, {
     typeKey: "$type"
-}).index({
-    geometry: ""
 }));
 
 quarter.createIndexes();

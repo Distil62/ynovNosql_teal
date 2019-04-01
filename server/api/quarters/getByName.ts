@@ -10,5 +10,5 @@ interface IQuarterNameRequest {
 export default router.get('/name', async function (req: Request, res: Response) {
     const request: IQuarterNameRequest = req.body;
 
-    res.json(await Quarter.findOne({name: request.name}));
+    res.json(await Quarter.findOne({nom: request.name}));
 });
