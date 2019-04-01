@@ -18,15 +18,15 @@ class LoadMap extends React.Component {
         }));
     };
 
-    longitude = 4.837754
-    latitude = 45.745716
+    longitude = 4.837754;
+    latitude = 45.745716;
 
     constructor(props) {
         super(props);
         this.state = {
             velovs: []
         }
-    }
+    };
 
     render() {
         return (
@@ -46,7 +46,10 @@ class LoadMap extends React.Component {
                     layout={{ "icon-image": "marker-15" }}>
                     {
                         this.state.velovs.length > 0
-                            ? this.state.velovs.map(velov => <Marker key={velov._id} coordinates={velov.geometry.coordinates} />)
+                            ? this.state.velovs.map(velov => <Marker 
+                                onClick={() => { console.log("clicked ! ==> ", velov) }}
+                                key={velov._id} 
+                                coordinates={velov.geometry.coordinates} />)
                             : null
                     }
                     </Layer>
