@@ -1,0 +1,60 @@
+:root {
+    --main-color: #373a3a;
+    --main-color_hover: #5e6060;
+    --blue-color: #40a9ff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.search-bar {
+    display: block;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 60px;
+    left: 0;
+    right: 0;
+    font-size: 25px;
+    width: 40%;
+    z-index: 999;
+}
+
+.ant-select {
+    width: 100%;
+}
+
+.ant-select-dropdown-menu-vertical {
+    border: 1px solid var(--blue-color);
+    border-radius: 4px;
+}
+
+.ant-select-dropdown-menu-item {
+    background-color: var(--main-color);
+    color: white;
+}
+
+.ant-select-dropdown-menu-item:hover {
+    background-color: var(--main-color_hover);
+    color: white;
+}
+
+.ant-select-selection__rendered {
+    height: 40px;
+    font-size: 17px;
+    background-color: var(--main-color);
+    border-color: var(--blue-color);
+    -webkit-box-shadow: 3px 3px 7px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 3px 3px 7px 0px rgba(0,0,0,0.5);
+    box-shadow: 2px 2px 7px 0px rgba(0,0,0,0.5);
+}
+
+.ant-select-auto-complete.ant-select .ant-input {
+    color: white;
+}

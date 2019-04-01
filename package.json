@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@zeit/next-css": "^1.0.1",
     "antd": "^3.15.2",
     "express": "^4.16.4",
     "isomorphic-unfetch": "^3.0.0",
+    "mapbox-gl": "^0.53.1",
     "mongoose": "^5.4.20",
     "next": "^8.0.3",
     "node-sass": "^4.11.0",
@@ -14,6 +16,7 @@
     "passport-local": "^1.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-mapbox-gl": "^4.2.0",
     "ts-node": "^8.0.3",
     "typescript": "^3.4.1"
   },
