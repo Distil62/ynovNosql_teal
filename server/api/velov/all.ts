@@ -1,4 +1,4 @@
-import { Router, Request, Response} from "express";
+import { Request, Response, Router } from "express";
 import Velov from '../../model/Velov';
 
 const router = Router();

@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+import { model, Schema } from "mongoose";
 
-const interest = model('interest', new Schema({
+const interest = model('pointCle', new Schema({
     type: String,
     properties: {
         id: String,

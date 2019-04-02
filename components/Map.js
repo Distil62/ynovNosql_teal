@@ -1,7 +1,9 @@
+import Drawer from 'antd/lib/drawer';
 import fetch from 'isomorphic-unfetch';
 import NavigationControl from "mapbox-gl";
 import React from 'react';
 import ReactMapboxGl, { Layer, Marker } from "react-mapbox-gl";
+import DrawerContent from './DrawerContent';
 import SearchBar from './SearchBar';
 
 class LoadMap extends React.Component {
@@ -18,24 +20,44 @@ class LoadMap extends React.Component {
         }));
     };
 
+
     longitude = 4.837754;
     latitude = 45.745716;
 
     constructor(props) {
         super(props);
         this.state = {
-            velovs: []
+            velovs: [],
+            visible: false,
+            currentVelov: null,
+            zoom: [10]
         }
     };
 
     render() {
         return (
             <div>
+                {
+                    this.state.currentVelov
+                    ? <Drawer
+                        title={this.state.currentVelov.properties.name}
+                        onClose={() => this.setState({visible: false})} 
+                        visible={this.state.visible}>
+                                <DrawerContent velov={this.state.currentVelov} />
+                    </Drawer>
+                    : null
+                }
                 <SearchBar />
                 <this.Mapbox
                     onStyleLoad={this.onStyleLoad}
-                    center = {[4.8418314, 45.7463131]}
+                    center = {
+                        this.state.currentVelov
+                            ? [this.state.currentVelov.properties.lng, this.state.currentVelov.properties.lat]
+                            : [4.8418314, 45.7463131]
+                        
+                    }
                     style="mapbox://styles/mapbox/dark-v9"
+                    zoom={this.state.zoom}
                     containerStyle={{
                         height: "100vh",
                         width: "100vw"
@@ -47,9 +69,9 @@ class LoadMap extends React.Component {
                     {
                         this.state.velovs.length > 0
                             ? this.state.velovs.map(velov => <Marker 
-                                onClick={() => { console.log("clicked ! ==> ", velov) }}
+                                onClick={() => this.setState({currentVelov: velov, visible: true, zoom: [17]})}
                                 key={velov._id} 
-                                coordinates={velov.geometry.coordinates} />)
+                                coordinates={velov.geometry.coordinates}/>)
                             : null
                     }
                     </Layer>

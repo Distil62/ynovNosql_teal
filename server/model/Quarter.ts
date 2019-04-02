@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+import { model, Schema } from "mongoose";
 
-const quarter = model('quarters', new Schema({
+const quarter = model('quartier', new Schema({
     type: String,
     features: {
         nom: String,
