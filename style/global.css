@@ -58,3 +58,7 @@ body {
 .ant-select-auto-complete.ant-select .ant-input {
     color: white;
 }
+
+.ant-drawer-title {
+    width: 90%;
+}
