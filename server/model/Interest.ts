@@ -33,7 +33,8 @@ const interest = model('pointCle', new Schema({
         coordinates: [Number]
     }
 }, {
-    typeKey: '$type'
+    typeKey: '$type',
+    collection: 'pointCle'
 }).index({
     geometry: "2dsphere"
 }));

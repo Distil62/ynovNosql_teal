@@ -17,7 +17,8 @@ const quarter = model('quartier', new Schema({
         coordinates: [[Number]]
     }
 }, {
-    typeKey: "$type"
+    typeKey: "$type",
+    collection: 'quartier'
 }));
 
 quarter.createIndexes();
