@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { model, Schema } from "mongoose";
 
 const velov = model('velov', new Schema({
     type: String,
@@ -35,7 +35,8 @@ const velov = model('velov', new Schema({
         coordinates: [Number]
     }
 }, {
-    typeKey: '$type'
+    typeKey: '$type',
+    collection: 'velov'
 }).index({
     geometry: "2dsphere"
 }));

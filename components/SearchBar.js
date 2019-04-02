@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import React from 'react';
 import '../style/global.css';
 
-const dataSource = ['Burns Bay Road', 'Downing Street', 'Wall Street'];
+const quarter = ['Burns Bay Road', 'Downing Street', 'Wall Street'];
 
 class SearchBar extends React.Component {
 
@@ -12,7 +12,7 @@ class SearchBar extends React.Component {
         return (
             <div className="search-bar">
                 <AutoComplete
-                    dataSource={dataSource}
+                    dataSource={quarter}
                     placeholder="Rechercher ..."
                     filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
                 />
