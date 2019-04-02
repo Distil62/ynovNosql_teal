@@ -62,6 +62,24 @@ body {
 .ant-drawer-title {
     width: 90%;
     font-size: 17px;
+    color: white;
+}
+
+.ant-drawer-content,
+.ant-drawer-header  {
+    background: var(--main-color);
+}
+
+.ant-drawer-header {
+    border-bottom: 1px solid var(--main-color_hover);
+}
+
+.anticon {
+    color: white;
+}
+
+.velov-commune {
+    color: white;
 }
 
 ul,
