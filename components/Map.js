@@ -20,34 +20,60 @@ class LoadMap extends React.Component {
         }));
     };
 
-
-    longitude = 4.837754;
-    latitude = 45.745716;
-
     constructor(props) {
         super(props);
         this.state = {
             velovs: [],
+            displayVelovs: [],
             visible: false,
             currentVelov: null,
-            zoom: [10]
+            zoom: [10],
+            searchElems: ["caca"]
         }
     };
+
+    searchByName(name) {
+        if (!name || name.length <= 0) {
+            this.setState({
+                displayVelovs: this.state.velovs
+            });
+        } else {
+            const searchRes = this.state.velovs.filter((v) => v.properties.name === name);
+
+            if (searchRes.length > 1 ) {
+                const midIndex = Math.round(searchRes.length / 2);
+
+                this.setState({
+                    visible: false,
+                    displayVelovs: searchRes,
+                    currentVelov: searchRes[midIndex],
+                    zoom: [14]
+                });
+            } else {
+                this.setState({
+                    displayVelovs: this.state.velovs,
+                    currentVelov: searchRes[0],
+                    visible: true,
+                    zoom: [17]
+                });
+            }
+        }
+    }
 
     render() {
         return (
             <div>
                 {
                     this.state.currentVelov
-                    ? <Drawer
-                        title={this.state.currentVelov.properties.name}
-                        onClose={() => this.setState({visible: false})} 
-                        visible={this.state.visible}>
-                                <DrawerContent velov={this.state.currentVelov} />
-                    </Drawer>
-                    : null
+                        ? <Drawer
+                            title={this.state.currentVelov.properties.name}
+                            onClose={() => this.setState({visible: false})}
+                            visible={this.state.visible}>
+                                    <DrawerContent velov={this.state.currentVelov} />
+                        </Drawer>
+                        : null
                 }
-                <SearchBar />
+                <SearchBar searchCallback={(name) => this.searchByName(name)} datasource={this.state.searchElems} />
                 <this.Mapbox
                     onStyleLoad={this.onStyleLoad}
                     center = {
@@ -67,8 +93,8 @@ class LoadMap extends React.Component {
                     id="marker"
                     layout={{ "icon-image": "marker-15" }}>
                     {
-                        this.state.velovs.length > 0
-                            ? this.state.velovs.map(velov => <Marker 
+                        this.state.displayVelovs.length > 0
+                            ? this.state.displayVelovs.map(velov => <Marker
                                 onClick={() => this.setState({currentVelov: velov, visible: true, zoom: [17]})}
                                 key={velov._id} 
                                 coordinates={velov.geometry.coordinates}/>)
@@ -80,8 +106,23 @@ class LoadMap extends React.Component {
         );
     }
     async componentDidMount() {
-        const velov = await fetch("http://localhost:3000/api/velov/");
-        this.setState({velovs: await velov.json()});
+        const response = await fetch("http://localhost:3000/api/velov/");
+        const velov = await response.json();
+        const datasourceSearch = [];
+
+        velov.forEach((v) => {
+            if (!datasourceSearch.includes(v.properties.name)) {
+                datasourceSearch.push(v.properties.name);
+            }
+        });
+
+        datasourceSearch.sort();
+
+        this.setState({
+            velovs: velov,
+            displayVelovs: velov,
+            searchElems: datasourceSearch
+        });
     }
 }
 
