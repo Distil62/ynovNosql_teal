@@ -7,7 +7,7 @@ library.add(faBicycle, faParking);
 export default props => 
 <ul style={{fontSize: '15px'}}>
     <li style={{marginBottom: '25px'}}>
-       <h2 style={{fontSize: '18px'}}><span>{props.velov.properties.commune}</span></h2>
+       <h2 style={{fontSize: '18px', textTransform: 'capitalize'}}><span>{props.velov.properties.commune}</span></h2>
     </li>
     <li style={{marginBottom: '10px'}}>
         <h3
@@ -29,8 +29,5 @@ export default props =>
             <FontAwesomeIcon style={{marginRight: '13px', marginLeft: '-5px'}} icon="bicycle"/>
             disponibles: <span style={{fontWeight: 'bold'}}>{props.velov.properties.available_bikes}</span>
         </h3>
-    </li>
-    <li>
-        <h3>Elle se trouve à : 25m</h3>
     </li>
 </ul>

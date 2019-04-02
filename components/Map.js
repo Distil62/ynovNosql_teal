@@ -95,7 +95,7 @@ class LoadMap extends React.Component {
                     {
                         this.state.displayVelovs.length > 0
                             ? this.state.displayVelovs.map(velov => <Marker
-                                onClick={() => this.setState({currentVelov: velov, visible: true, zoom: [17]})}
+                                onClick={() => this.setState({displayVelovs: this.state.velovs, currentVelov: velov, visible: true, zoom: [17]})}
                                 key={velov._id} 
                                 coordinates={velov.geometry.coordinates}/>)
                             : null
