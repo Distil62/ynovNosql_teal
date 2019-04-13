@@ -4,6 +4,7 @@ import NavigationControl from "mapbox-gl";
 import React from 'react';
 import ReactMapboxGl, { Layer, Marker } from "react-mapbox-gl";
 import DrawerContent from './DrawerContent';
+import Quarters from './Quarters';
 import SearchBar from './SearchBar';
 
 class LoadMap extends React.Component {
@@ -88,6 +89,7 @@ class LoadMap extends React.Component {
                         height: "100vh",
                         width: "100vw"
                     }}>
+                    <Quarters/>
                     <Layer
                     type="symbol"
                     id="marker"
