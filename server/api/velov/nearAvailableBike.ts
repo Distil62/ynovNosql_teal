@@ -9,7 +9,7 @@ interface INearAvailablePlaceRequest {
     distance: string
 }
 
-export default router.get('/nearAvailableBikes', async function (req: Request, res: Response) {
+export default router.post('/nearAvailableBikes', async function (req: Request, res: Response) {
     const request: INearAvailablePlaceRequest = req.body;
 
     res.json(
