@@ -29,7 +29,8 @@ class LoadMap extends React.Component {
             visible: false,
             currentVelov: null,
             zoom: [10],
-            searchElems: ["caca"]
+            searchElems: ["ronaldo"],
+            quarters: []
         }
     };
 
