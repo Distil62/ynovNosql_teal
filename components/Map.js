@@ -28,8 +28,7 @@ class LoadMap extends React.Component {
             visible: false,
             currentTarget: null,
             zoom: [10],
-            searchElems: ["ronaldo"],
-            quarters: []
+            quarters: [],
             searchElems: ["ronaldo"],
             interests: [],
             interestVisible: false
@@ -187,13 +186,11 @@ class LoadMap extends React.Component {
 
         datasourceSearch.sort();
 
-
         this.setState({
             velovs: velov,
             displayVelovs: velov,
             searchElems: datasourceSearch,
-            quarters: quarter
-            searchElems: datasourceSearch,
+            quarters: quarter,
             interests: interestPoints
         });
     }
