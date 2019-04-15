@@ -123,7 +123,7 @@ class LoadMap extends React.Component {
             }
         });
 
-        quarter.forEach((q) => {
+        quarter.forEach(q => {
             if (!datasourceSearch.includes(q.properties.nom)) {
                 datasourceSearch.push(q.properties.nom);
             }
@@ -135,7 +135,8 @@ class LoadMap extends React.Component {
         this.setState({
             velovs: velov,
             displayVelovs: velov,
-            searchElems: datasourceSearch
+            searchElems: datasourceSearch,
+            quarter: quarter
         });
     }
 }
