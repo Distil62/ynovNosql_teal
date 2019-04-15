@@ -6,6 +6,11 @@ import ReactMapboxGl, { Layer, Marker } from "react-mapbox-gl";
 import DrawerContent from './DrawerContent';
 import SearchBar from './SearchBar';
 
+const polygonPaint = {
+    'fill-color': '#6F788A',
+    'fill-opacity': 0.7
+};
+
 class LoadMap extends React.Component {
     Mapbox = ReactMapboxGl({
         accessToken: "pk.eyJ1IjoiaW1teXN0IiwiYSI6ImNqdHlkN2FtdDAxcjEzem4zbnJpcGs2aXAifQ.mz6mN7OZY5yLfnslk4jXGQ"
