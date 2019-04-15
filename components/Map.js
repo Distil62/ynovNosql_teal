@@ -2,9 +2,15 @@ import Drawer from 'antd/lib/drawer';
 import fetch from 'isomorphic-unfetch';
 import NavigationControl from "mapbox-gl";
 import React from 'react';
-import ReactMapboxGl, { Layer, Marker } from "react-mapbox-gl";
+import ReactMapboxGl, { Feature, Layer, Marker } from "react-mapbox-gl";
 import DrawerContent from './DrawerContent';
 import SearchBar from './SearchBar';
+
+    
+const polygonPaint = {
+    'fill-color': '#6F788A',
+    'fill-opacity': 0.7
+};
 
 class LoadMap extends React.Component {
     Mapbox = ReactMapboxGl({
@@ -28,7 +34,8 @@ class LoadMap extends React.Component {
             visible: false,
             currentVelov: null,
             zoom: [10],
-            searchElems: ["caca"]
+            searchElems: ["ronaldo"],
+            quarters: []
         }
     };
 
@@ -88,6 +95,14 @@ class LoadMap extends React.Component {
                         height: "100vh",
                         width: "100vw"
                     }}>
+                    <Layer 
+                        id="quarters"
+                        type="fill" 
+                        paint={polygonPaint}>
+                    {
+                        this.state.quarters.map(q => <Feature key={q._id} coordinates={[q.geometry.coordinates[[0]]]} />)
+                    }
+                    </Layer>
                     <Layer
                     type="symbol"
                     id="marker"
@@ -106,22 +121,32 @@ class LoadMap extends React.Component {
         );
     }
     async componentDidMount() {
-        const response = await fetch("http://localhost:3000/api/velov/");
-        const velov = await response.json();
+        const responseV = await fetch("http://localhost:3000/api/velov/");
+        const responseQ = await fetch('http://localhost:3000/api/quarter/');
+        const velov = await responseV.json();
+        const quarter = await responseQ.json();
         const datasourceSearch = [];
 
-        velov.forEach((v) => {
+        velov.forEach(v => {
             if (!datasourceSearch.includes(v.properties.name)) {
                 datasourceSearch.push(v.properties.name);
             }
         });
 
+        quarter.forEach(q => {
+            if (!datasourceSearch.includes(q.properties.nom)) {
+                datasourceSearch.push(q.properties.nom);
+            }
+        });
+
         datasourceSearch.sort();
+
 
         this.setState({
             velovs: velov,
             displayVelovs: velov,
-            searchElems: datasourceSearch
+            searchElems: datasourceSearch,
+            quarters: quarter
         });
     }
 }
