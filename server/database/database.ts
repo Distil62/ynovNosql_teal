@@ -1,8 +1,8 @@
 import mongoose = require('mongoose');
 
 export default function () {
-    // mongoose.connect('mongodb+srv://mern:mern@cluster0-z3oa3.mongodb.net/test?retryWrites=true', 
-    mongoose.connect('mongodb://YnovVelov:YnovVelov@40.89.186.142/ProjetNoSql?retryWrites=true', 
+    // mongoose.connect('mongodb+srv://mern:mern@cluster0-z3oa3.mongodb.net/test?retryWrites=true',
+    mongoose.connect('mongodb://YnovVelov:YnovVelov@40.89.186.142/ProjetNoSql?retryWrites=true',
     {
         useNewUrlParser: true,
         useCreateIndex: true

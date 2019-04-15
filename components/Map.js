@@ -2,15 +2,9 @@ import Drawer from 'antd/lib/drawer';
 import fetch from 'isomorphic-unfetch';
 import NavigationControl from "mapbox-gl";
 import React from 'react';
-import ReactMapboxGl, { Feature, Layer, Marker } from "react-mapbox-gl";
+import ReactMapboxGl, { Layer, Marker } from "react-mapbox-gl";
 import DrawerContent from './DrawerContent';
 import SearchBar from './SearchBar';
-
-    
-const polygonPaint = {
-    'fill-color': '#6F788A',
-    'fill-opacity': 0.7
-};
 
 class LoadMap extends React.Component {
     Mapbox = ReactMapboxGl({
@@ -32,10 +26,13 @@ class LoadMap extends React.Component {
             velovs: [],
             displayVelovs: [],
             visible: false,
-            currentVelov: null,
+            currentTarget: null,
             zoom: [10],
             searchElems: ["ronaldo"],
             quarters: []
+            searchElems: ["ronaldo"],
+            interests: [],
+            interestVisible: false
         }
     };
 
@@ -53,13 +50,13 @@ class LoadMap extends React.Component {
                 this.setState({
                     visible: false,
                     displayVelovs: searchRes,
-                    currentVelov: searchRes[midIndex],
+                    currentTarget: searchRes[midIndex],
                     zoom: [14]
                 });
             } else {
                 this.setState({
                     displayVelovs: this.state.velovs,
-                    currentVelov: searchRes[0],
+                    currentTarget: searchRes[0],
                     visible: true,
                     zoom: [17]
                 });
@@ -67,16 +64,43 @@ class LoadMap extends React.Component {
         }
     }
 
+    async nearVelov(lat, long) {
+        const response = await fetch('http://locahost:3000/api/velov/nearAvailableBikes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                lat: lat,
+                lon: long,
+                distance: 1000000
+            })
+        });
+        const targetVelov = await response.json();
+
+        this.setState({
+            currentTarget: targetVelov,
+            visible: true,
+            zoom: [17],
+            interestVisible: false
+        });
+
+    }
+
     render() {
         return (
             <div>
                 {
-                    this.state.currentVelov
+                    this.state.currentTarget
                         ? <Drawer
-                            title={this.state.currentVelov.properties.name}
+                            title={this.state.currentTarget.properties.name}
                             onClose={() => this.setState({visible: false})}
                             visible={this.state.visible}>
-                                    <DrawerContent velov={this.state.currentVelov} />
+                            {
+                                this.state.interestVisible
+                                    ? <DrawerContentInterest nearCallback={(lat, long) => this.nearVelov(lat, long)} interest={this.state.currentTarget} />
+                                    : <DrawerContent velov={this.state.currentTarget} />
+                            }
                         </Drawer>
                         : null
                 }
@@ -84,8 +108,8 @@ class LoadMap extends React.Component {
                 <this.Mapbox
                     onStyleLoad={this.onStyleLoad}
                     center = {
-                        this.state.currentVelov
-                            ? [this.state.currentVelov.properties.lng, this.state.currentVelov.properties.lat]
+                        this.state.currentTarget
+                            ? [this.state.currentTarget.geometry.coordinates[0], this.state.currentTarget.geometry.coordinates[1]]
                             : [4.8418314, 45.7463131]
                         
                     }
@@ -95,9 +119,9 @@ class LoadMap extends React.Component {
                         height: "100vh",
                         width: "100vw"
                     }}>
-                    <Layer 
+                    <Layer
                         id="quarters"
-                        type="fill" 
+                        type="fill"
                         paint={polygonPaint}>
                     {
                         this.state.quarters.map(q => <Feature key={q._id} coordinates={[q.geometry.coordinates[[0]]]} />)
@@ -106,15 +130,30 @@ class LoadMap extends React.Component {
                     <Layer
                     type="symbol"
                     id="marker"
-                    layout={{ "icon-image": "marker-15" }}>
+                    layout={{ "icon-image": "marker-15" }}
+                    >
                     {
                         this.state.displayVelovs.length > 0
                             ? this.state.displayVelovs.map(velov => <Marker
-                                onClick={() => this.setState({displayVelovs: this.state.velovs, currentVelov: velov, visible: true, zoom: [17]})}
-                                key={velov._id} 
+                                onClick={() => this.setState({currentTarget: velov, visible: true, zoom: [17], interestVisible: false})}
+                                key={velov._id}
                                 coordinates={velov.geometry.coordinates}/>)
                             : null
                     }
+                    </Layer>
+                    <Layer
+                        type="symbol"
+                        id="interests"
+                        layout={{ "icon-image": "interest-marker" }}
+                        images={interestImages}>
+                        {
+                            this.state.interests.length > 0
+                                ? this.state.interests.map(interest => <Marker
+                                    onClick={() => this.setState({currentTarget: interest, visible: true, zoom: [17], interestVisible: true}) }
+                                    key={interest.properties.nom}
+                                    coordinates={interest.geometry.coordinates}/>)
+                                : null
+                        }
                     </Layer>
                 </this.Mapbox>
             </div>
@@ -126,6 +165,7 @@ class LoadMap extends React.Component {
         const velov = await responseV.json();
         const quarter = await responseQ.json();
         const datasourceSearch = [];
+        const interestPoints = interests();
 
         velov.forEach(v => {
             if (!datasourceSearch.includes(v.properties.name)) {
@@ -139,6 +179,12 @@ class LoadMap extends React.Component {
             }
         });
 
+        interestPoints.forEach(p => {
+            if (!datasourceSearch.includes(p.properties.nom)) {
+                datasourceSearch.push(p.properties.nom);
+            }
+        });
+
         datasourceSearch.sort();
 
 
@@ -147,6 +193,8 @@ class LoadMap extends React.Component {
             displayVelovs: velov,
             searchElems: datasourceSearch,
             quarters: quarter
+            searchElems: datasourceSearch,
+            interests: interestPoints
         });
     }
 }

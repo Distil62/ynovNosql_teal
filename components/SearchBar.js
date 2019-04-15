@@ -21,6 +21,7 @@ class SearchBar extends React.Component {
                     placeholder="Rechercher..."
                     onChange={(value) => { this.setState({searchValue: value}) }}
                     filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                    onSelect={(value) => this.props.searchCallback(value)}
                 />
             </div>
         );
