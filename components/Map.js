@@ -5,11 +5,17 @@ import React from 'react';
 import ReactMapboxGl, { Layer, Marker } from "react-mapbox-gl";
 import DrawerContent from './DrawerContent';
 import SearchBar from './SearchBar';
+import DrawerContentInterest from "./DrawerContentInterest";
+import Feature from "react-mapbox-gl/lib-esm/feature";
 
 const polygonPaint = {
     'fill-color': '#6F788A',
     'fill-opacity': 0.7
 };
+
+const image = new Image();
+image.src = "static/img/interestMarker.png";
+const interestImages = ['interest-marker', image];
 
 class LoadMap extends React.Component {
     Mapbox = ReactMapboxGl({
