@@ -14,7 +14,7 @@ const quarter = model('quartier', new Schema({
     },
     geometry: {
         type: String,
-        coordinates: [[String]]
+        coordinates: [[[Number]]]
     }
 }, {
     typeKey: "$type",
