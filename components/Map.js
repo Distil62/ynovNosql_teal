@@ -160,15 +160,7 @@ class LoadMap extends React.Component {
         const response = await fetch("http://localhost:3000/api/velov/");
         const velov = await response.json();
         const datasourceSearch = [];
-        // const interestPoints = interests();
-        const interestPoints = [{
-            properties : {
-                nom: "bordel",
-            },
-            geometry: {
-                coordinates: [4.8418314, 45.7463131]
-            }
-        }];
+        const interestPoints = interests();
 
         velov.forEach((v) => {
             if (!datasourceSearch.includes(v.properties.name)) {
