@@ -7,6 +7,10 @@ const polygonPaint = {
 };
 
 export default props => 
-    <Layer type="fill" paint={polygonPaint}>
-        <Feature coordinates={[props.quarter.geometry.coordinates]} />
+    <Layer 
+    id="quarter"
+    type="fill" 
+    paint={polygonPaint}>
+        {console.log(props)}
+        <Feature coordinates={props.quarters.geometry.coordinates[[0]]} />
     </Layer>

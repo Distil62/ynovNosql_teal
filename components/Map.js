@@ -90,7 +90,9 @@ class LoadMap extends React.Component {
                         height: "100vh",
                         width: "100vw"
                     }}>
-                    <Quarters/>
+                    {
+                        this.state.quarters.map(q => <Quarters quarters={q} />)
+                    }               
                     <Layer
                     type="symbol"
                     id="marker"
@@ -109,8 +111,10 @@ class LoadMap extends React.Component {
         );
     }
     async componentDidMount() {
-        const response = await fetch("http://localhost:3000/api/velov/");
-        const velov = await response.json();
+        const responseV = await fetch("http://localhost:3000/api/velov/");
+        const responseQ = await fetch('http://localhost:3000/api/quarter/');
+        const velov = await responseV.json();
+        const quarter = await responseQ.json();
         const datasourceSearch = [];
 
         velov.forEach((v) => {
@@ -119,7 +123,14 @@ class LoadMap extends React.Component {
             }
         });
 
+        quarter.forEach((q) => {
+            if (!datasourceSearch.includes(q.properties.nom)) {
+                datasourceSearch.push(q.properties.nom);
+            }
+        });
+
         datasourceSearch.sort();
+
 
         this.setState({
             velovs: velov,
